@@ -1,0 +1,10 @@
+{
+  "name": "cyber-glitch",
+  "displayName": "Cyber Glitch 404",
+  "author": "ui-errors",
+  "tags": ["cyber", "glitch", "dark"],
+
+  "registerAs": {
+    "404": true
+  }
+}
