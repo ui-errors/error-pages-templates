@@ -1,3 +1,61 @@
 {
-  "templates": []
+  "generatedAt": "2026-05-07T21:29:32.944Z",
+  "frameworks": [
+    "static",
+    "vite",
+    "react",
+    "next",
+    "express",
+    "vue",
+    "svelte"
+  ],
+  "templates": {
+    "404": [
+      {
+        "id": 1,
+        "name": "cyber",
+        "displayName": "Cyber Glitch 404",
+        "description": "",
+        "author": "ui-errors",
+        "version": "1.0.0",
+        "tags": [
+          "cyber",
+          "glitch",
+          "dark"
+        ],
+        "type": "404",
+        "files": {
+          "static": {
+            "file": "404.html",
+            "path": "build/static/cyber/404.html"
+          },
+          "vite": {
+            "file": "404.html",
+            "path": "build/vite/cyber/404.html"
+          },
+          "react": {
+            "file": "404.jsx",
+            "path": "build/react/cyber/404.jsx"
+          },
+          "next": {
+            "file": "not-found.js",
+            "path": "build/next/cyber/not-found.js"
+          },
+          "express": {
+            "file": "404.ejs",
+            "path": "build/express/cyber/404.ejs"
+          },
+          "vue": {
+            "file": "404.vue",
+            "path": "build/vue/cyber/404.vue"
+          },
+          "svelte": {
+            "file": "404.svelte",
+            "path": "build/svelte/cyber/404.svelte"
+          }
+        }
+      }
+    ],
+    "500": []
+  }
 }
