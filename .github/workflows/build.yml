@@ -31,10 +31,14 @@ jobs:
       - name: Build templates
         run: node scripts/build.js
 
+      - name: Ensure output directory exists
+        run: |
+          mkdir -p build
+
       - name: Verify templates.json exists
         run: |
           if [ ! -f templates.json ]; then
-            echo "templates.json was not generated"
+            echo "ERROR: templates.json was not generated"
             exit 1
           fi
 
@@ -43,7 +47,7 @@ jobs:
           git config user.name "ui-errors-bot"
           git config user.email "bot@ui-errors.dev"
 
-          git add build templates.json
+          git add .
 
           git diff --cached --quiet && echo "No changes to commit" && exit 0
 
