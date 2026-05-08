@@ -1,12 +1,50 @@
 const fs = require("fs")
 const path = require("path")
+const crypto = require("crypto")
 
 const RAW = path.join(__dirname, "../raw")
 const BUILD = path.join(__dirname, "../build")
-const ROOT = path.join(__dirname, "..")
+const REGISTRY = path.join(__dirname, "../registry")
+
+/*
+  BUILD CACHE
+
+  Prevents rebuilding templates
+  that already exist and have
+  not changed.
+*/
+
+const CACHE_FILE = path.join(
+  REGISTRY,
+  ".build-cache.json"
+)
 
 function ensure(dir) {
   fs.mkdirSync(dir, { recursive: true })
+}
+
+function loadCache() {
+  if (!fs.existsSync(CACHE_FILE)) {
+    return {}
+  }
+
+  return JSON.parse(
+    fs.readFileSync(CACHE_FILE, "utf-8")
+  )
+}
+
+function saveCache(cache) {
+  fs.writeFileSync(
+    CACHE_FILE,
+    JSON.stringify(cache, null, 2)
+  )
+}
+
+function hashContent(content) {
+  return crypto
+    .createHash("sha256")
+    .update(content)
+    .digest("hex")
 }
 
 function escapeTemplate(html) {
@@ -16,7 +54,10 @@ function escapeTemplate(html) {
     .replace(/\$\{/g, "\\${")
 }
 
-function buildReactComponent(html, componentName) {
+function buildReactComponent(
+  html,
+  componentName
+) {
   const escaped = escapeTemplate(html)
 
   return `export default function ${componentName}() {
@@ -42,7 +83,207 @@ function buildSvelteComponent(html) {
   return html
 }
 
+const FRAMEWORKS = {
+  static: {
+    ext: "html",
+
+    files: {
+      "404": "404.html",
+      "500": "500.html"
+    },
+
+    generate: html => html
+  },
+
+  vite: {
+    ext: "html",
+
+    files: {
+      "404": "404.html",
+      "500": "500.html"
+    },
+
+    generate: html => html
+  },
+
+  react: {
+    ext: "jsx",
+
+    files: {
+      "404": "404.jsx",
+      "500": "500.jsx"
+    },
+
+    generate404: html =>
+      buildReactComponent(html, "NotFound"),
+
+    generate500: html =>
+      buildReactComponent(html, "ServerError")
+  },
+
+  next: {
+    ext: "js",
+
+    files: {
+      "404": "not-found.js",
+      "500": "error.js"
+    },
+
+    generate404: html =>
+      buildReactComponent(html, "NotFound"),
+
+    generate500: html =>
+      buildReactComponent(html, "Error")
+  },
+
+  express: {
+    ext: "ejs",
+
+    files: {
+      "404": "404.ejs",
+      "500": "500.ejs"
+    },
+
+    generate: html => html
+  },
+
+  vue: {
+    ext: "vue",
+
+    files: {
+      "404": "404.vue",
+      "500": "500.vue"
+    },
+
+    generate: html =>
+      buildVueComponent(html)
+  },
+
+  svelte: {
+    ext: "svelte",
+
+    files: {
+      "404": "404.svelte",
+      "500": "500.svelte"
+    },
+
+    generate: html =>
+      buildSvelteComponent(html)
+  }
+}
+
+function getInstallTarget(
+  framework,
+  type,
+  file
+) {
+  const targets = {
+    next: {
+      "404": `app/${file}`,
+      "500": `app/${file}`
+    },
+
+    react: {
+      "404": `src/pages/${file}`,
+      "500": `src/pages/${file}`
+    },
+
+    vite: {
+      "404": `public/${file}`,
+      "500": `public/${file}`
+    },
+
+    vue: {
+      "404": `src/pages/${file}`,
+      "500": `src/pages/${file}`
+    },
+
+    svelte: {
+      "404": `src/routes/${file}`,
+      "500": `src/routes/${file}`
+    },
+
+    express: {
+      "404": `views/${file}`,
+      "500": `views/${file}`
+    },
+
+    static: {
+      "404": file,
+      "500": file
+    }
+  }
+
+  return targets[framework][type]
+}
+
+function createRegistryTemplate({
+  id,
+  type,
+  meta,
+  folder
+}) {
+  const frameworks = {}
+
+  Object.entries(FRAMEWORKS).forEach(
+    ([framework, config]) => {
+      frameworks[framework] = {
+        file: config.files[type],
+
+        path: `build/${framework}/${folder}/${config.files[type]}`,
+
+        install: getInstallTarget(
+          framework,
+          type,
+          config.files[type]
+        )
+      }
+    }
+  )
+
+  return {
+    id,
+    type,
+
+    name: meta.name,
+
+    displayName:
+      meta.displayName || meta.name,
+
+    description:
+      meta.description || "",
+
+    author:
+      meta.author || "unknown",
+
+    version:
+      meta.version || "1.0.0",
+
+    tags:
+      meta.tags || [],
+
+    frameworks
+  }
+}
+
 function build() {
+  ensure(BUILD)
+  ensure(REGISTRY)
+
+  const cache = loadCache()
+
+  const registry404 = {
+    generatedAt: new Date().toISOString(),
+    type: "404",
+    templates: []
+  }
+
+  const registry500 = {
+    generatedAt: new Date().toISOString(),
+    type: "500",
+    templates: []
+  }
+
   if (!fs.existsSync(RAW)) {
     console.log("No raw folder found")
     return
@@ -50,319 +291,250 @@ function build() {
 
   const folders = fs.readdirSync(RAW)
 
-  /*
-    FINAL CLI REGISTRY
-
-    templates.json becomes:
-    - registry
-    - category index
-    - framework map
-    - install source
-  */
-
-  const registry = {
-    generatedAt: new Date().toISOString(),
-
-    frameworks: [
-      "static",
-      "vite",
-      "react",
-      "next",
-      "express",
-      "vue",
-      "svelte"
-    ],
-
-    templates: {
-      "404": [],
-      "500": []
-    }
-  }
-
   let id = 1
 
   folders.forEach(folder => {
     const dir = path.join(RAW, folder)
 
-    const metaPath = path.join(dir, "template.json")
-    const htmlPath = path.join(dir, "index.html")
+    const metaPath = path.join(
+      dir,
+      "template.json"
+    )
 
-    // VALIDATION
-    if (!fs.existsSync(metaPath) || !fs.existsSync(htmlPath)) {
-      console.log(`Skipping invalid template: ${folder}`)
+    const htmlPath = path.join(
+      dir,
+      "index.html"
+    )
+
+    if (
+      !fs.existsSync(metaPath) ||
+      !fs.existsSync(htmlPath)
+    ) {
+      console.log(
+        `Skipping invalid template: ${folder}`
+      )
+
       return
     }
 
-    const meta = JSON.parse(fs.readFileSync(metaPath, "utf-8"))
-    const html = fs.readFileSync(htmlPath, "utf-8")
+    const metaContent =
+      fs.readFileSync(metaPath, "utf-8")
 
-    // ENFORCE IDENTITY RULE
+    const htmlContent =
+      fs.readFileSync(htmlPath, "utf-8")
+
+    /*
+      TEMPLATE HASH
+
+      If hash matches previous build,
+      skip rebuilding.
+    */
+
+    const templateHash = hashContent(
+      metaContent + htmlContent
+    )
+
+    if (
+      cache[folder] &&
+      cache[folder] === templateHash
+    ) {
+      console.log(
+        `⏭ Skipping unchanged template: ${folder}`
+      )
+
+      /*
+        STILL REGISTER TEMPLATE
+      */
+
+      const meta =
+        JSON.parse(metaContent)
+
+      const registerAs =
+        meta.registerAs || {}
+
+      if (registerAs["404"]) {
+        registry404.templates.push(
+          createRegistryTemplate({
+            id: id++,
+            type: "404",
+            meta,
+            folder
+          })
+        )
+      }
+
+      if (registerAs["500"]) {
+        registry500.templates.push(
+          createRegistryTemplate({
+            id: id++,
+            type: "500",
+            meta,
+            folder
+          })
+        )
+      }
+
+      return
+    }
+
+    /*
+      TEMPLATE CHANGED
+      → REBUILD
+    */
+
+    console.log(
+      `🔨 Building template: ${folder}`
+    )
+
+    const meta = JSON.parse(metaContent)
+
     if (meta.name !== folder) {
       throw new Error(
-        `Template mismatch: folder "${folder}" != "${meta.name}"`
+        `Folder "${folder}" does not match template name "${meta.name}"`
       )
     }
 
-    const registerAs = meta.registerAs || {}
+    const registerAs =
+      meta.registerAs || {}
 
-    /*
-      COMPILERS
-    */
+    Object.entries(FRAMEWORKS).forEach(
+      ([framework, config]) => {
+        const outDir = path.join(
+          BUILD,
+          framework,
+          folder
+        )
 
-    const outputs = {
-      static: {
-        ext: "html",
-        generate: () => html
-      },
+        ensure(outDir)
 
-      vite: {
-        ext: "html",
-        generate: () => html
-      },
+        /*
+          BUILD 404
+        */
 
-      react: {
-        ext: "jsx",
+        if (registerAs["404"]) {
+          const file =
+            config.files["404"]
 
-        generate404: () =>
-          buildReactComponent(html, "NotFound"),
+          let content = ""
 
-        generate500: () =>
-          buildReactComponent(html, "ServerError")
-      },
+          if (
+            framework === "react" ||
+            framework === "next"
+          ) {
+            content =
+              config.generate404(
+                htmlContent
+              )
+          } else {
+            content =
+              config.generate(htmlContent)
+          }
 
-      next: {
-        ext: "js",
-
-        generate404: () =>
-          buildReactComponent(html, "NotFound"),
-
-        generate500: () =>
-          buildReactComponent(html, "Error")
-      },
-
-      express: {
-        ext: "ejs",
-        generate: () => html
-      },
-
-      vue: {
-        ext: "vue",
-        generate: () => buildVueComponent(html)
-      },
-
-      svelte: {
-        ext: "svelte",
-        generate: () => buildSvelteComponent(html)
-      }
-    }
-
-    /*
-      BUILD ALL FRAMEWORK FILES
-    */
-
-    Object.entries(outputs).forEach(([framework, config]) => {
-      const outDir = path.join(BUILD, framework, folder)
-
-      ensure(outDir)
-
-      // 404
-      if (registerAs["404"]) {
-        let fileName = ""
-        let content = ""
-
-        switch (framework) {
-          case "next":
-            fileName = "not-found.js"
-            content = config.generate404()
-            break
-
-          case "react":
-            fileName = "404.jsx"
-            content = config.generate404()
-            break
-
-          default:
-            fileName = `404.${config.ext}`
-            content = config.generate()
+          fs.writeFileSync(
+            path.join(outDir, file),
+            content
+          )
         }
 
-        fs.writeFileSync(
-          path.join(outDir, fileName),
-          content
-        )
-      }
+        /*
+          BUILD 500
+        */
 
-      // 500
-      if (registerAs["500"]) {
-        let fileName = ""
-        let content = ""
+        if (registerAs["500"]) {
+          const file =
+            config.files["500"]
 
-        switch (framework) {
-          case "next":
-            fileName = "error.js"
-            content = config.generate500()
-            break
+          let content = ""
 
-          case "react":
-            fileName = "500.jsx"
-            content = config.generate500()
-            break
+          if (
+            framework === "react" ||
+            framework === "next"
+          ) {
+            content =
+              config.generate500(
+                htmlContent
+              )
+          } else {
+            content =
+              config.generate(htmlContent)
+          }
 
-          default:
-            fileName = `500.${config.ext}`
-            content = config.generate()
+          fs.writeFileSync(
+            path.join(outDir, file),
+            content
+          )
         }
-
-        fs.writeFileSync(
-          path.join(outDir, fileName),
-          content
-        )
       }
-    })
+    )
 
     /*
-      REGISTER 404 TEMPLATE
+      UPDATE CACHE
+    */
+
+    cache[folder] = templateHash
+
+    /*
+      REGISTER TEMPLATE
     */
 
     if (registerAs["404"]) {
-      registry.templates["404"].push({
-        id: id++,
-
-        name: meta.name,
-
-        displayName:
-          meta.displayName || meta.name,
-
-        description:
-          meta.description || "",
-
-        author:
-          meta.author || "unknown",
-
-        version:
-          meta.version || "1.0.0",
-
-        tags:
-          meta.tags || [],
-
-        type: "404",
-
-        files: {
-          static: {
-            file: "404.html",
-            path: `build/static/${folder}/404.html`
-          },
-
-          vite: {
-            file: "404.html",
-            path: `build/vite/${folder}/404.html`
-          },
-
-          react: {
-            file: "404.jsx",
-            path: `build/react/${folder}/404.jsx`
-          },
-
-          next: {
-            file: "not-found.js",
-            path: `build/next/${folder}/not-found.js`
-          },
-
-          express: {
-            file: "404.ejs",
-            path: `build/express/${folder}/404.ejs`
-          },
-
-          vue: {
-            file: "404.vue",
-            path: `build/vue/${folder}/404.vue`
-          },
-
-          svelte: {
-            file: "404.svelte",
-            path: `build/svelte/${folder}/404.svelte`
-          }
-        }
-      })
+      registry404.templates.push(
+        createRegistryTemplate({
+          id: id++,
+          type: "404",
+          meta,
+          folder
+        })
+      )
     }
 
-    /*
-      REGISTER 500 TEMPLATE
-    */
-
     if (registerAs["500"]) {
-      registry.templates["500"].push({
-        id: id++,
-
-        name: meta.name,
-
-        displayName:
-          meta.displayName || meta.name,
-
-        description:
-          meta.description || "",
-
-        author:
-          meta.author || "unknown",
-
-        version:
-          meta.version || "1.0.0",
-
-        tags:
-          meta.tags || [],
-
-        type: "500",
-
-        files: {
-          static: {
-            file: "500.html",
-            path: `build/static/${folder}/500.html`
-          },
-
-          vite: {
-            file: "500.html",
-            path: `build/vite/${folder}/500.html`
-          },
-
-          react: {
-            file: "500.jsx",
-            path: `build/react/${folder}/500.jsx`
-          },
-
-          next: {
-            file: "error.js",
-            path: `build/next/${folder}/error.js`
-          },
-
-          express: {
-            file: "500.ejs",
-            path: `build/express/${folder}/500.ejs`
-          },
-
-          vue: {
-            file: "500.vue",
-            path: `build/vue/${folder}/500.vue`
-          },
-
-          svelte: {
-            file: "500.svelte",
-            path: `build/svelte/${folder}/500.svelte`
-          }
-        }
-      })
+      registry500.templates.push(
+        createRegistryTemplate({
+          id: id++,
+          type: "500",
+          meta,
+          folder
+        })
+      )
     }
   })
 
   /*
-    FINAL REGISTRY OUTPUT
+    SAVE CACHE
+  */
+
+  saveCache(cache)
+
+  /*
+    WRITE REGISTRIES
   */
 
   fs.writeFileSync(
-    path.join(ROOT, "templates.json"),
-    JSON.stringify(registry, null, 2)
+    path.join(REGISTRY, "404.json"),
+    JSON.stringify(
+      registry404,
+      null,
+      2
+    )
   )
 
-  console.log("✔ Templates compiled and registered successfully")
+  fs.writeFileSync(
+    path.join(REGISTRY, "500.json"),
+    JSON.stringify(
+      registry500,
+      null,
+      2
+    )
+  )
+
+  console.log("")
+  console.log(
+    "✔ Incremental build complete"
+  )
+  console.log(
+    "✔ Registry updated"
+  )
 }
 
 build()
