@@ -1,0 +1,57 @@
+{
+  "generatedAt": "2026-05-08T11:18:25.667Z",
+  "type": "404",
+  "templates": [
+    {
+      "id": 1,
+      "type": "404",
+      "name": "cyber",
+      "displayName": "Cyber Glitch 404",
+      "description": "",
+      "author": "ui-errors",
+      "version": "1.0.0",
+      "tags": [
+        "cyber",
+        "glitch",
+        "dark"
+      ],
+      "frameworks": {
+        "static": {
+          "file": "404.html",
+          "path": "build/static/cyber/404.html",
+          "install": "404.html"
+        },
+        "vite": {
+          "file": "404.html",
+          "path": "build/vite/cyber/404.html",
+          "install": "public/404.html"
+        },
+        "react": {
+          "file": "404.jsx",
+          "path": "build/react/cyber/404.jsx",
+          "install": "src/pages/404.jsx"
+        },
+        "next": {
+          "file": "not-found.js",
+          "path": "build/next/cyber/not-found.js",
+          "install": "app/not-found.js"
+        },
+        "express": {
+          "file": "404.ejs",
+          "path": "build/express/cyber/404.ejs",
+          "install": "views/404.ejs"
+        },
+        "vue": {
+          "file": "404.vue",
+          "path": "build/vue/cyber/404.vue",
+          "install": "src/pages/404.vue"
+        },
+        "svelte": {
+          "file": "404.svelte",
+          "path": "build/svelte/cyber/404.svelte",
+          "install": "src/routes/404.svelte"
+        }
+      }
+    }
+  ]
+}
