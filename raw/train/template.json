@@ -1,0 +1,11 @@
+{
+
+  "name": "train",
+  "displayName": "Train",
+  "author": "ui-errors",
+  "tags": ["train", "glitch", "white"],
+
+  "registerAs": {
+    "404": true
+  }
+}
