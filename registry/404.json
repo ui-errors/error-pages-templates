@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-08T11:18:25.667Z",
+  "generatedAt": "2026-05-08T11:29:22.903Z",
   "type": "404",
   "templates": [
     {
@@ -49,6 +49,57 @@
         "svelte": {
           "file": "404.svelte",
           "path": "build/svelte/cyber/404.svelte",
+          "install": "src/routes/404.svelte"
+        }
+      }
+    },
+    {
+      "id": 2,
+      "type": "404",
+      "name": "train",
+      "displayName": "Train",
+      "description": "",
+      "author": "ui-errors",
+      "version": "1.0.0",
+      "tags": [
+        "train",
+        "glitch",
+        "white"
+      ],
+      "frameworks": {
+        "static": {
+          "file": "404.html",
+          "path": "build/static/train/404.html",
+          "install": "404.html"
+        },
+        "vite": {
+          "file": "404.html",
+          "path": "build/vite/train/404.html",
+          "install": "public/404.html"
+        },
+        "react": {
+          "file": "404.jsx",
+          "path": "build/react/train/404.jsx",
+          "install": "src/pages/404.jsx"
+        },
+        "next": {
+          "file": "not-found.js",
+          "path": "build/next/train/not-found.js",
+          "install": "app/not-found.js"
+        },
+        "express": {
+          "file": "404.ejs",
+          "path": "build/express/train/404.ejs",
+          "install": "views/404.ejs"
+        },
+        "vue": {
+          "file": "404.vue",
+          "path": "build/vue/train/404.vue",
+          "install": "src/pages/404.vue"
+        },
+        "svelte": {
+          "file": "404.svelte",
+          "path": "build/svelte/train/404.svelte",
           "install": "src/routes/404.svelte"
         }
       }
