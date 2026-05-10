@@ -1,17 +1,23 @@
 const fs = require("fs")
 const path = require("path")
 const crypto = require("crypto")
+const cheerio = require("cheerio")
 
 const RAW = path.join(__dirname, "../raw")
 const BUILD = path.join(__dirname, "../build")
 const REGISTRY = path.join(__dirname, "../registry")
 
 /*
-  BUILD CACHE
+  BUILD VERSION
 
-  Prevents rebuilding templates
-  that already exist and have
-  not changed.
+  Increment when wrapper logic changes
+  to force rebuilds.
+*/
+
+const BUILD_VERSION = "2"
+
+/*
+  BUILD CACHE
 */
 
 const CACHE_FILE = path.join(
@@ -20,7 +26,9 @@ const CACHE_FILE = path.join(
 )
 
 function ensure(dir) {
-  fs.mkdirSync(dir, { recursive: true })
+  fs.mkdirSync(dir, {
+    recursive: true
+  })
 }
 
 function loadCache() {
@@ -29,7 +37,10 @@ function loadCache() {
   }
 
   return JSON.parse(
-    fs.readFileSync(CACHE_FILE, "utf-8")
+    fs.readFileSync(
+      CACHE_FILE,
+      "utf-8"
+    )
   )
 }
 
@@ -47,41 +58,228 @@ function hashContent(content) {
     .digest("hex")
 }
 
-function escapeTemplate(html) {
-  return html
+function escapeTemplate(content = "") {
+  return content
     .replace(/\\/g, "\\\\")
     .replace(/`/g, "\\`")
     .replace(/\$\{/g, "\\${")
 }
 
+/*
+  EXTRACT TEMPLATE PARTS
+
+  Preserves UI while removing
+  framework-breaking document tags.
+*/
+
+function extractTemplateParts(html) {
+  const $ = cheerio.load(html)
+
+  const body =
+    $("body").html() || html
+
+  const styles = $("style")
+    .map((_, el) => $(el).html())
+    .get()
+    .join("\n")
+
+  const head =
+    $("head").html() || ""
+
+  const title =
+    $("title").text() || ""
+
+  return {
+    body,
+    styles,
+    head,
+    title
+  }
+}
+
+/*
+  REACT / NEXT WRAPPERS
+*/
+
 function buildReactComponent(
   html,
   componentName
 ) {
-  const escaped = escapeTemplate(html)
+  const {
+    body,
+    styles
+  } = extractTemplateParts(html)
 
   return `export default function ${componentName}() {
   return (
-    <div
-      dangerouslySetInnerHTML={{
-        __html: \`${escaped}\`
-      }}
-    />
+    <>
+      ${
+        styles
+          ? `<style>{\`${escapeTemplate(
+              styles
+            )}\`}</style>`
+          : ""
+      }
+
+      <div
+        dangerouslySetInnerHTML={{
+          __html: \`${escapeTemplate(
+            body
+          )}\`
+        }}
+      />
+    </>
   )
 }
 `
 }
 
-function buildVueComponent(html) {
-  return `<template>
-${html}
-</template>
+function buildNextErrorComponent(
+  html
+) {
+  const {
+    body,
+    styles
+  } = extractTemplateParts(html)
+
+  return `"use client"
+
+export default function Error() {
+  return (
+    <>
+      ${
+        styles
+          ? `<style>{\`${escapeTemplate(
+              styles
+            )}\`}</style>`
+          : ""
+      }
+
+      <div
+        dangerouslySetInnerHTML={{
+          __html: \`${escapeTemplate(
+            body
+          )}\`
+        }}
+      />
+    </>
+  )
+}
 `
 }
 
-function buildSvelteComponent(html) {
-  return html
+/*
+  VUE WRAPPER
+*/
+
+function buildVueComponent(html) {
+  const {
+    body,
+    styles
+  } = extractTemplateParts(html)
+
+  return `<template>
+  <div v-html="html"></div>
+</template>
+
+<script setup>
+const html = \`${escapeTemplate(
+    body
+  )}\`
+</script>
+
+${
+  styles
+    ? `<style>
+${styles}
+</style>`
+    : ""
 }
+`
+}
+
+/*
+  SVELTE WRAPPER
+*/
+
+function buildSvelteComponent(
+  html
+) {
+  const {
+    body,
+    styles
+  } = extractTemplateParts(html)
+
+  return `<script>
+  const html = \`${escapeTemplate(
+    body
+  )}\`
+</script>
+
+${
+  styles
+    ? `<svelte:head>
+  <style>
+${styles}
+  </style>
+</svelte:head>`
+    : ""
+}
+
+{@html html}
+`
+}
+
+/*
+  CHECK OUTPUT FILES
+
+  Prevent cache skipping
+  when framework files
+  are missing.
+*/
+
+function outputsExist(
+  folder,
+  registerAs
+) {
+  return Object.entries(
+    FRAMEWORKS
+  ).every(([framework, config]) => {
+    const outDir = path.join(
+      BUILD,
+      framework,
+      folder
+    )
+
+    if (registerAs["404"]) {
+      const file404 = path.join(
+        outDir,
+        config.files["404"]
+      )
+
+      if (!fs.existsSync(file404)) {
+        return false
+      }
+    }
+
+    if (registerAs["500"]) {
+      const file500 = path.join(
+        outDir,
+        config.files["500"]
+      )
+
+      if (!fs.existsSync(file500)) {
+        return false
+      }
+    }
+
+    return true
+  })
+}
+
+/*
+  FRAMEWORK CONFIG
+*/
 
 const FRAMEWORKS = {
   static: {
@@ -115,10 +313,16 @@ const FRAMEWORKS = {
     },
 
     generate404: html =>
-      buildReactComponent(html, "NotFound"),
+      buildReactComponent(
+        html,
+        "NotFound"
+      ),
 
     generate500: html =>
-      buildReactComponent(html, "ServerError")
+      buildReactComponent(
+        html,
+        "ServerError"
+      )
   },
 
   next: {
@@ -130,10 +334,15 @@ const FRAMEWORKS = {
     },
 
     generate404: html =>
-      buildReactComponent(html, "NotFound"),
+      buildReactComponent(
+        html,
+        "NotFound"
+      ),
 
     generate500: html =>
-      buildReactComponent(html, "Error")
+      buildNextErrorComponent(
+        html
+      )
   },
 
   express: {
@@ -168,7 +377,9 @@ const FRAMEWORKS = {
     },
 
     generate: html =>
-      buildSvelteComponent(html)
+      buildSvelteComponent(
+        html
+      )
   }
 }
 
@@ -225,18 +436,21 @@ function createRegistryTemplate({
 }) {
   const frameworks = {}
 
-  Object.entries(FRAMEWORKS).forEach(
+  Object.entries(
+    FRAMEWORKS
+  ).forEach(
     ([framework, config]) => {
       frameworks[framework] = {
         file: config.files[type],
 
         path: `build/${framework}/${folder}/${config.files[type]}`,
 
-        install: getInstallTarget(
-          framework,
-          type,
-          config.files[type]
-        )
+        install:
+          getInstallTarget(
+            framework,
+            type,
+            config.files[type]
+          )
       }
     }
   )
@@ -248,7 +462,8 @@ function createRegistryTemplate({
     name: meta.name,
 
     displayName:
-      meta.displayName || meta.name,
+      meta.displayName ||
+      meta.name,
 
     description:
       meta.description || "",
@@ -273,28 +488,41 @@ function build() {
   const cache = loadCache()
 
   const registry404 = {
-    generatedAt: new Date().toISOString(),
+    generatedAt:
+      new Date().toISOString(),
+
     type: "404",
+
     templates: []
   }
 
   const registry500 = {
-    generatedAt: new Date().toISOString(),
+    generatedAt:
+      new Date().toISOString(),
+
     type: "500",
+
     templates: []
   }
 
   if (!fs.existsSync(RAW)) {
-    console.log("No raw folder found")
+    console.log(
+      "No raw folder found"
+    )
+
     return
   }
 
-  const folders = fs.readdirSync(RAW)
+  const folders =
+    fs.readdirSync(RAW)
 
   let id = 1
 
   folders.forEach(folder => {
-    const dir = path.join(RAW, folder)
+    const dir = path.join(
+      RAW,
+      folder
+    )
 
     const metaPath = path.join(
       dir,
@@ -318,39 +546,42 @@ function build() {
     }
 
     const metaContent =
-      fs.readFileSync(metaPath, "utf-8")
+      fs.readFileSync(
+        metaPath,
+        "utf-8"
+      )
 
     const htmlContent =
-      fs.readFileSync(htmlPath, "utf-8")
+      fs.readFileSync(
+        htmlPath,
+        "utf-8"
+      )
 
-    /*
-      TEMPLATE HASH
-
-      If hash matches previous build,
-      skip rebuilding.
-    */
-
-    const templateHash = hashContent(
-      metaContent + htmlContent
+    const meta = JSON.parse(
+      metaContent
     )
 
+    const registerAs =
+      meta.registerAs || {}
+
+    const templateHash =
+      hashContent(
+        BUILD_VERSION +
+          metaContent +
+          htmlContent
+      )
+
     if (
-      cache[folder] &&
-      cache[folder] === templateHash
+      cache[folder] ===
+        templateHash &&
+      outputsExist(
+        folder,
+        registerAs
+      )
     ) {
       console.log(
         `⏭ Skipping unchanged template: ${folder}`
       )
-
-      /*
-        STILL REGISTER TEMPLATE
-      */
-
-      const meta =
-        JSON.parse(metaContent)
-
-      const registerAs =
-        meta.registerAs || {}
 
       if (registerAs["404"]) {
         registry404.templates.push(
@@ -377,16 +608,9 @@ function build() {
       return
     }
 
-    /*
-      TEMPLATE CHANGED
-      → REBUILD
-    */
-
     console.log(
       `🔨 Building template: ${folder}`
     )
-
-    const meta = JSON.parse(metaContent)
 
     if (meta.name !== folder) {
       throw new Error(
@@ -394,10 +618,9 @@ function build() {
       )
     }
 
-    const registerAs =
-      meta.registerAs || {}
-
-    Object.entries(FRAMEWORKS).forEach(
+    Object.entries(
+      FRAMEWORKS
+    ).forEach(
       ([framework, config]) => {
         const outDir = path.join(
           BUILD,
@@ -418,7 +641,8 @@ function build() {
           let content = ""
 
           if (
-            framework === "react" ||
+            framework ===
+              "react" ||
             framework === "next"
           ) {
             content =
@@ -427,7 +651,9 @@ function build() {
               )
           } else {
             content =
-              config.generate(htmlContent)
+              config.generate(
+                htmlContent
+              )
           }
 
           fs.writeFileSync(
@@ -447,7 +673,8 @@ function build() {
           let content = ""
 
           if (
-            framework === "react" ||
+            framework ===
+              "react" ||
             framework === "next"
           ) {
             content =
@@ -456,7 +683,9 @@ function build() {
               )
           } else {
             content =
-              config.generate(htmlContent)
+              config.generate(
+                htmlContent
+              )
           }
 
           fs.writeFileSync(
@@ -467,15 +696,8 @@ function build() {
       }
     )
 
-    /*
-      UPDATE CACHE
-    */
-
-    cache[folder] = templateHash
-
-    /*
-      REGISTER TEMPLATE
-    */
+    cache[folder] =
+      templateHash
 
     if (registerAs["404"]) {
       registry404.templates.push(
@@ -500,18 +722,14 @@ function build() {
     }
   })
 
-  /*
-    SAVE CACHE
-  */
-
   saveCache(cache)
 
-  /*
-    WRITE REGISTRIES
-  */
-
   fs.writeFileSync(
-    path.join(REGISTRY, "404.json"),
+    path.join(
+      REGISTRY,
+      "404.json"
+    ),
+
     JSON.stringify(
       registry404,
       null,
@@ -520,7 +738,11 @@ function build() {
   )
 
   fs.writeFileSync(
-    path.join(REGISTRY, "500.json"),
+    path.join(
+      REGISTRY,
+      "500.json"
+    ),
+
     JSON.stringify(
       registry500,
       null,
@@ -532,6 +754,7 @@ function build() {
   console.log(
     "✔ Incremental build complete"
   )
+
   console.log(
     "✔ Registry updated"
   )
