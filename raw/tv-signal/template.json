@@ -1,0 +1,10 @@
+{
+  "name": "tv-signal",
+  "displayName": "Tv signal",
+  "author": "@morgan",
+  "tags": ["tv", "BrokenSignal", "Signal"],
+
+  "registerAs": {
+    "404": true
+  }
+}

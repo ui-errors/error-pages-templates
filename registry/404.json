@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-10T11:18:12.447Z",
+  "generatedAt": "2026-05-10T14:45:00.061Z",
   "type": "404",
   "templates": [
     {
@@ -100,6 +100,57 @@
         "svelte": {
           "file": "404.svelte",
           "path": "build/svelte/train/404.svelte",
+          "install": "src/routes/404.svelte"
+        }
+      }
+    },
+    {
+      "id": 3,
+      "type": "404",
+      "name": "tv-signal",
+      "displayName": "Tv signal",
+      "description": "",
+      "author": "@morgan",
+      "version": "1.0.0",
+      "tags": [
+        "tv",
+        "BrokenSignal",
+        "Signal"
+      ],
+      "frameworks": {
+        "static": {
+          "file": "404.html",
+          "path": "build/static/tv-signal/404.html",
+          "install": "404.html"
+        },
+        "vite": {
+          "file": "404.html",
+          "path": "build/vite/tv-signal/404.html",
+          "install": "public/404.html"
+        },
+        "react": {
+          "file": "404.jsx",
+          "path": "build/react/tv-signal/404.jsx",
+          "install": "src/pages/404.jsx"
+        },
+        "next": {
+          "file": "not-found.js",
+          "path": "build/next/tv-signal/not-found.js",
+          "install": "app/not-found.js"
+        },
+        "express": {
+          "file": "404.ejs",
+          "path": "build/express/tv-signal/404.ejs",
+          "install": "views/404.ejs"
+        },
+        "vue": {
+          "file": "404.vue",
+          "path": "build/vue/tv-signal/404.vue",
+          "install": "src/pages/404.vue"
+        },
+        "svelte": {
+          "file": "404.svelte",
+          "path": "build/svelte/tv-signal/404.svelte",
           "install": "src/routes/404.svelte"
         }
       }
