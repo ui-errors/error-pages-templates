@@ -31,6 +31,7 @@ We welcome contributions! Here's how to add your custom error page templates:
 2. **Create your template** in the `raw/` directory:
    - Create a new folder under `raw/` with your template name (e.g., `raw/my-theme/`)
    - Add an `index.html` file with your template design
+   - Make sure you don't push the images here host the images somewhere just pushed one source code
    - Add a `template.json` file with template metadata
 
 3. **Build your templates** for multiple frameworks:
