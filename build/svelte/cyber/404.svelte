@@ -1,9 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>404 Not Found</title>
+<script>
+  const html = `
+  <div class="glitch">404</div>
+  <p>Page not found in the system</p>
+  <div class="code">UI-ERRORS ACTIVE MODULE</div>
+
+
+`
+</script>
+
+<svelte:head>
   <style>
+
     body {
       margin: 0;
       height: 100vh;
@@ -45,12 +52,8 @@
       border: 1px solid #00ffcc;
       font-size: 14px;
     }
+  
   </style>
-</head>
+</svelte:head>
 
-<body>
-  <div class="glitch">404</div>
-  <p>Page not found in the system</p>
-  <div class="code">UI-ERRORS ACTIVE MODULE</div>
-</body>
-</html>
+{@html html}

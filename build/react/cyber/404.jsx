@@ -1,13 +1,7 @@
 export default function NotFound() {
   return (
-    <div
-      dangerouslySetInnerHTML={{
-        __html: `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>404 Not Found</title>
-  <style>
+    <>
+      <style>{`
     body {
       margin: 0;
       height: 100vh;
@@ -49,17 +43,19 @@ export default function NotFound() {
       border: 1px solid #00ffcc;
       font-size: 14px;
     }
-  </style>
-</head>
+  `}</style>
 
-<body>
+      <div
+        dangerouslySetInnerHTML={{
+          __html: `
   <div class="glitch">404</div>
   <p>Page not found in the system</p>
   <div class="code">UI-ERRORS ACTIVE MODULE</div>
-</body>
-</html>
+
+
 `
-      }}
-    />
+        }}
+      />
+    </>
   )
 }

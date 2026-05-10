@@ -1,14 +1,7 @@
 export default function NotFound() {
   return (
-    <div
-      dangerouslySetInnerHTML={{
-        __html: `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>404 TV Not Found</title>
-  <style>
+    <>
+      <style>{`
     /* 1. Added centering for the entire page */
     body {
       margin: 0;
@@ -426,9 +419,11 @@ export default function NotFound() {
       background-color: #171717;
       margin-top: 0.8em;
     }
-  </style>
-</head>
-<body>
+  `}</style>
+
+      <div
+        dangerouslySetInnerHTML={{
+          __html: `
   <div class="main_wrapper">
     <div class="main">
       <div class="antenna">
@@ -486,10 +481,11 @@ export default function NotFound() {
       <div class="text_4043">4</div>
     </div>
   </div>
-</body>
-</html>
+
+
 `
-      }}
-    />
+        }}
+      />
+    </>
   )
 }

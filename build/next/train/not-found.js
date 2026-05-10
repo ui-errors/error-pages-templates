@@ -1,14 +1,7 @@
 export default function NotFound() {
   return (
-    <div
-      dangerouslySetInnerHTML={{
-        __html: `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 - Page Not Found</title>
-    <style>
+    <>
+      <style>{`
         /* Base Styles */
         body, html {
             margin: 0;
@@ -99,9 +92,11 @@ export default function NotFound() {
         .not_found_btn:hover {
             background-color: #555;
         }
-    </style>
-</head>
-<body>
+    `}</style>
+
+      <div
+        dangerouslySetInnerHTML={{
+          __html: `
 
 <div class="not_found_body">
     <div class="not_found_content">
@@ -161,10 +156,11 @@ export default function NotFound() {
     </div>
 </div>
 
-</body>
-</html>
+
+
 `
-      }}
-    />
+        }}
+      />
+    </>
   )
 }
