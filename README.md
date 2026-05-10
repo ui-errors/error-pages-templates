@@ -53,7 +53,7 @@ Each template should include:
 
 ```json
 {
-  "name": "cyber",
+  "name": "theme-name",
   "displayName": "Cyber Glitch 404",
   "author": "ui-errors",
   "tags": ["cyber", "glitch", "dark"],
