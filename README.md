@@ -8,7 +8,7 @@ A collection of customizable error page templates for web applications. These te
 Before using these templates, you must install the `ui-errors` CLI tool:
 
 ```bash
-npm install -g ui-errors
+npm install -g errorlab
 ```
 
 Once installed, you can browse and install templates from this repository using the CLI.
