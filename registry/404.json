@@ -1,9 +1,60 @@
 {
-  "generatedAt": "2026-05-12T10:39:25.562Z",
+  "generatedAt": "2026-05-12T10:41:21.717Z",
   "type": "404",
   "templates": [
     {
       "id": 1,
+      "type": "404",
+      "name": "brokenSignal",
+      "displayName": "disconnected tv",
+      "description": "",
+      "author": "Frost-bit-star",
+      "version": "1.0.0",
+      "tags": [
+        "puzzle",
+        "tv",
+        "disconnected"
+      ],
+      "frameworks": {
+        "static": {
+          "file": "404.html",
+          "path": "build/static/brokenSignal/404.html",
+          "install": "404.html"
+        },
+        "vite": {
+          "file": "404.html",
+          "path": "build/vite/brokenSignal/404.html",
+          "install": "public/404.html"
+        },
+        "react": {
+          "file": "404.jsx",
+          "path": "build/react/brokenSignal/404.jsx",
+          "install": "src/pages/404.jsx"
+        },
+        "next": {
+          "file": "not-found.js",
+          "path": "build/next/brokenSignal/not-found.js",
+          "install": "app/not-found.js"
+        },
+        "express": {
+          "file": "404.ejs",
+          "path": "build/express/brokenSignal/404.ejs",
+          "install": "views/404.ejs"
+        },
+        "vue": {
+          "file": "404.vue",
+          "path": "build/vue/brokenSignal/404.vue",
+          "install": "src/pages/404.vue"
+        },
+        "svelte": {
+          "file": "404.svelte",
+          "path": "build/svelte/brokenSignal/404.svelte",
+          "install": "src/routes/404.svelte"
+        }
+      }
+    },
+    {
+      "id": 2,
       "type": "404",
       "name": "cyber",
       "displayName": "Cyber Glitch 404",
@@ -54,7 +105,7 @@
       }
     },
     {
-      "id": 2,
+      "id": 3,
       "type": "404",
       "name": "train",
       "displayName": "Train",
@@ -105,7 +156,7 @@
       }
     },
     {
-      "id": 3,
+      "id": 4,
       "type": "404",
       "name": "tv-signal",
       "displayName": "Tv signal",
