@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - PixelMart Signal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pixel-bg: #ffffff;
+      --pixel-orange: #f27405;
+      --pixel-dark: #1d0e01;
+      --pixel-border: 4px;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: var(--pixel-bg);
+      font-family: 'Press+Start+2P', cursive; /* Pixel font */
+      color: var(--pixel-dark);
+      overflow: hidden;
+    }
+
+    #game-status {
+      margin-bottom: 40px;
+      text-align: center;
+      z-index: 20;
+    }
+
+    #game-status h1 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    #game-status p {
+      font-size: 0.7rem;
+      letter-spacing: 1px;
+    }
+
+    .counter {
+      color: var(--pixel-orange);
+    }
+
+    /* PIXELATED HIDDEN OBJECTS */
+    .hidden-item {
+      position: absolute;
+      font-size: 3rem;
+      cursor: pointer;
+      z-index: 100;
+      filter: drop-shadow(4px 4px 0px rgba(0,0,0,0.1));
+      transition: transform 0.1s;
+      image-rendering: pixelated;
+    }
+
+    .hidden-item:hover {
+      transform: scale(1.1) translateY(-5px);
+    }
+
+    .flying {
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    /* THE PIXEL TV */
+    .main_wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .tv {
+      width: 18em;
+      height: 10em;
+      background-color: var(--pixel-orange);
+      display: flex;
+      padding: 10px;
+      position: relative;
+      /* Pixel Art Border Hack */
+      box-shadow: 
+        0 calc(var(--pixel-border) * -1) 0 0 var(--pixel-dark),
+        0 var(--pixel-border) 0 0 var(--pixel-dark),
+        calc(var(--pixel-border) * -1) 0 0 0 var(--pixel-dark),
+        var(--pixel-border) 0 0 0 var(--pixel-dark),
+        inset 4px 4px 0px #ff9e4a;
+    }
+
+    .display_div {
+      flex: 3;
+      background: var(--pixel-dark);
+      border: var(--pixel-border) solid var(--pixel-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .screenM {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.6rem;
+      color: white;
+      text-align: center;
+    }
+
+    .screenM.active-static {
+      background: 
+        repeating-conic-gradient(#333 0% 25%, #444 0% 50%) 0% 0%/4px 4px;
+      animation: pixel-static 0.1s infinite;
+    }
+
+    @keyframes pixel-static {
+      0% { background-position: 0 0; }
+      50% { background-position: 4px 0; }
+      100% { background-position: 0 4px; }
+    }
+
+    .buttons_div {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+      padding-left: 10px;
+    }
+
+    .pixel-knob {
+      width: 30px;
+      height: 30px;
+      background: #7f5934;
+      border: 3px solid var(--pixel-dark);
+      box-shadow: inset -3px -3px 0px #513721;
+    }
+
+    /* WIN STATE */
+    .screenM.win {
+      background: #2ecc71 !important;
+      animation: win-flash 0.5s steps(2);
+    }
+
+    @keyframes win-flash {
+      from { background: white; }
+      to { background: #2ecc71; }
+    }
+
+    .home-link {
+      display: none;
+      margin-top: 40px;
+      padding: 15px 25px;
+      background: var(--pixel-dark);
+      color: white;
+      text-decoration: none;
+      font-size: 0.8rem;
+      box-shadow: 6px 6px 0px var(--pixel-orange);
+      transition: all 0.1s;
+    }
+
+    .home-link:active {
+      transform: translate(3px, 3px);
+      box-shadow: 2px 2px 0px var(--pixel-orange);
+    }
+
+    /* Antenna */
+    .antenna-box {
+      position: absolute;
+      top: -60px;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+    }
+    .rod {
+      width: 6px;
+      height: 50px;
+      background: var(--pixel-dark);
+      transform: rotate(-20deg);
+    }
+  </style>
+</head>
+<body>
+
+  <div id="game-status">
+    <h1>Error 404</h1>
+    <p>SIGNAL LOST IN THE MART</p>
+    <p>ITEMS: <span id="count" class="counter">0</span>/3</p>
+  </div>
+
+  <!-- Items -->
+  <div class="hidden-item" id="item1" style="top: 20%; left: 10%;" onclick="connectItem(this)">📟</div>
+  <div class="hidden-item" id="item2" style="bottom: 15%; right: 15%;" onclick="connectItem(this)">📼</div>
+  <div class="hidden-item" id="item3" style="top: 75%; left: 15%;" onclick="connectItem(this)">🔌</div>
+
+  <div class="main_wrapper">
+    <div class="antenna-box"><div class="rod"></div></div>
+    <div class="tv" id="tv-unit">
+      <div class="display_div">
+        <div id="tv-screen" class="screenM active-static">OFFLINE</div>
+      </div>
+      <div class="buttons_div">
+        <div class="pixel-knob"></div>
+        <div class="pixel-knob"></div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/" id="home-btn" class="home-link">REBOOT TO HOME</a>
+
+  <script>
+    let foundCount = 0;
+
+    function connectItem(element) {
+      if (element.classList.contains('flying')) return;
+      element.classList.add('flying');
+      
+      const itemRect = element.getBoundingClientRect();
+      const tvRect = document.getElementById('tv-unit').getBoundingClientRect();
+      
+      const deltaX = (tvRect.left + tvRect.width/2) - (itemRect.left + itemRect.width/2);
+      const deltaY = (tvRect.top + tvRect.height/2) - (itemRect.top + itemRect.height/2);
+
+      element.animate([
+        { transform: 'translate(0, 0) scale(1) rotate(0deg)', opacity: 1 },
+        { transform: `translate(${deltaX}px, ${deltaY}px) scale(0) rotate(360deg)`, opacity: 0 }
+      ], {
+        duration: 600,
+        easing: 'steps(8)', // Makes the movement feel like a pixel game
+        fill: 'forwards'
+      }).onfinish = () => {
+        element.style.display = 'none';
+        updateProgress();
+      };
+    }
+
+    function updateProgress() {
+      foundCount++;
+      document.getElementById('count').innerText = foundCount;
+      
+      const screen = document.getElementById('tv-screen');
+      screen.style.filter = "invert(1)";
+      setTimeout(() => screen.style.filter = "invert(0)", 100);
+
+      if (foundCount === 3) {
+        setTimeout(winGame, 300);
+      }
+    }
+
+    function winGame() {
+      const screen = document.getElementById('tv-screen');
+      const homeBtn = document.getElementById('home-btn');
+      const status = document.getElementById('game-status');
+
+      screen.classList.remove('active-static');
+      screen.classList.add('win');
+      screen.innerHTML = "ONLINE";
+
+      status.innerHTML = "<h1>SYSTEM FIXED</h1><p>CONNECTION STABILIZED</p>";
+      homeBtn.style.display = "block";
+    }
+  </script>
+</body>
+</html>
