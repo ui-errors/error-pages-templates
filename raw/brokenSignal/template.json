@@ -3,7 +3,7 @@
   "name": "brokenSignal",
   "displayName": "disconnected tv",
   "author": "Frost-bit-star",
-  "tags": ["puzzle", "tv", "disconnected"],
+  "tags": ["puzzle", "tv", "wires"],
 
   "registerAs": {
     "404": true

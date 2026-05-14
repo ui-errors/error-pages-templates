@@ -1,0 +1,10 @@
+{
+  "name": "slate",
+  "displayName": "slate minimal 404",
+  "author": "ui-errors",
+  "tags": ["404", "clean", "minimal"],
+
+  "registerAs": {
+    "404": true
+  }
+}
