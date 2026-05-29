@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 - Page Not Found</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    .float {
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    .fade-up {
+      animation: fadeUp .7s ease forwards;
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body class="bg-neutral-50 text-neutral-900 min-h-screen">
+
+  <main class="min-h-screen flex items-center justify-center px-6">
+    <div class="max-w-6xl w-full grid lg:grid-cols-2 gap-14 items-center">
+
+      <!-- Left Content -->
+      <div class="fade-up">
+        <div class="inline-flex items-center rounded-full border border-neutral-200 bg-white px-4 py-2 text-sm text-neutral-600 shadow-sm mb-8">
+          Error 404
+        </div>
+
+        <h1 class="text-5xl lg:text-7xl font-semibold tracking-tight leading-tight">
+          This page doesn’t exist.
+        </h1>
+
+        <p class="mt-6 text-lg text-neutral-600 max-w-lg leading-relaxed">
+          The page you’re looking for may have been moved, deleted,
+          or never existed in the first place.
+        </p>
+
+        <div class="mt-10 flex flex-wrap gap-4">
+          <a
+            href="/"
+            class="inline-flex items-center justify-center rounded-xl bg-neutral-900 px-6 py-3 text-white font-medium transition hover:opacity-90"
+          >
+            Go Home
+          </a>
+
+          <button
+            onclick="history.back()"
+            class="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-6 py-3 font-medium text-neutral-700 transition hover:bg-neutral-100"
+          >
+            Go Back
+          </button>
+        </div>
+      </div>
+
+      <!-- Right SVG Illustration -->
+      <div class="relative flex justify-center fade-up">
+
+        <div class="absolute w-72 h-72 bg-neutral-200/50 blur-[80px] rounded-full"></div>
+
+        <svg
+          class="w-full max-w-xl float"
+          viewBox="0 0 700 500"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <!-- Floating Card -->
+          <rect
+            x="170"
+            y="90"
+            width="360"
+            height="250"
+            rx="24"
+            fill="white"
+            stroke="#E5E5E5"
+            stroke-width="2"
+          />
+
+          <!-- 404 -->
+          <text
+            x="350"
+            y="215"
+            text-anchor="middle"
+            font-size="90"
+            font-family="Arial"
+            fill="#171717"
+            font-weight="700"
+          >
+            404
+          </text>
+
+          <!-- Small line -->
+          <rect
+            x="240"
+            y="245"
+            width="220"
+            height="10"
+            rx="999"
+            fill="#E5E5E5"
+          />
+
+          <rect
+            x="280"
+            y="270"
+            width="140"
+            height="10"
+            rx="999"
+            fill="#F0F0F0"
+          />
+
+          <!-- Decorative circles -->
+          <circle cx="160" cy="150" r="14" fill="#D4D4D4"/>
+          <circle cx="550" cy="120" r="10" fill="#E5E5E5"/>
+          <circle cx="520" cy="350" r="18" fill="#D4D4D4"/>
+          <circle cx="180" cy="330" r="8" fill="#E5E5E5"/>
+
+          <!-- Bottom shadow -->
+          <ellipse
+            cx="350"
+            cy="390"
+            rx="150"
+            ry="20"
+            fill="#E5E5E5"
+            opacity="0.6"
+          />
+        </svg>
+      </div>
+
+    </div>
+  </main>
+
+</body>
+</html>
