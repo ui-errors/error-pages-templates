@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-14T19:25:27.615Z",
+  "generatedAt": "2026-05-29T20:43:48.580Z",
   "type": "404",
   "templates": [
     {
@@ -107,6 +107,59 @@
     {
       "id": 3,
       "type": "404",
+      "name": "lostAstronant",
+      "displayName": "Lost Astronaut 404",
+      "description": "",
+      "author": "ui-errors",
+      "version": "1.0.0",
+      "tags": [
+        "space",
+        "astronaut",
+        "404",
+        "minimal",
+        "white"
+      ],
+      "frameworks": {
+        "static": {
+          "file": "404.html",
+          "path": "build/static/lostAstronant/404.html",
+          "install": "404.html"
+        },
+        "vite": {
+          "file": "404.html",
+          "path": "build/vite/lostAstronant/404.html",
+          "install": "public/404.html"
+        },
+        "react": {
+          "file": "404.jsx",
+          "path": "build/react/lostAstronant/404.jsx",
+          "install": "src/pages/404.jsx"
+        },
+        "next": {
+          "file": "not-found.js",
+          "path": "build/next/lostAstronant/not-found.js",
+          "install": "app/not-found.js"
+        },
+        "express": {
+          "file": "404.ejs",
+          "path": "build/express/lostAstronant/404.ejs",
+          "install": "views/404.ejs"
+        },
+        "vue": {
+          "file": "404.vue",
+          "path": "build/vue/lostAstronant/404.vue",
+          "install": "src/pages/404.vue"
+        },
+        "svelte": {
+          "file": "404.svelte",
+          "path": "build/svelte/lostAstronant/404.svelte",
+          "install": "src/routes/404.svelte"
+        }
+      }
+    },
+    {
+      "id": 4,
+      "type": "404",
       "name": "slate",
       "displayName": "slate minimal 404",
       "description": "",
@@ -156,7 +209,7 @@
       }
     },
     {
-      "id": 4,
+      "id": 5,
       "type": "404",
       "name": "train",
       "displayName": "Train",
@@ -207,7 +260,7 @@
       }
     },
     {
-      "id": 5,
+      "id": 6,
       "type": "404",
       "name": "tv-signal",
       "displayName": "Tv signal",

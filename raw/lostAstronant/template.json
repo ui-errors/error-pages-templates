@@ -1,0 +1,10 @@
+{
+  "name": "lostAstronant",
+  "displayName": "Lost Astronaut 404",
+  "author": "ui-errors",
+  "tags": ["space", "astronaut", "404", "minimal", "white"],
+
+  "registerAs": {
+    "404": true
+  }
+}
