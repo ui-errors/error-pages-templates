@@ -9,7 +9,7 @@ pnpm-debug.log*
 
 # Build / output
 dist/
-build/
+#build/
 
 # OS files
 .DS_Store
