@@ -1,0 +1,47 @@
+name: Validate Templates Security
+
+on:
+  pull_request:
+    branches: [main]
+
+  push:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout repo
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Setup Node
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # 3. Install dependencies (if any)
+      - name: Install dependencies
+        run: npm install
+
+      # 4. Build templates
+      - name: Build templates
+        run: node scripts/build.js
+
+      # 5. Run security validator
+      - name: Security validation
+        run: node scripts/validate.js
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+
+      # 6. Run your existing validator (if separate)
+      - name: Template validation
+        run: node scripts/validate.js
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+
+      # 7. Success message
+      - name: Success
+        run: echo "✅ All templates passed validation"
