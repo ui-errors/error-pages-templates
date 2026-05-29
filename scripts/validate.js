@@ -1,5 +1,3 @@
-// scripts/security-build-validator.js
-
 const fs = require("fs");
 const path = require("path");
 const { execSync } = require("child_process");
@@ -7,15 +5,20 @@ const { execSync } = require("child_process");
 const BUILD_DIR = path.join(__dirname, "../build");
 
 /*
-  DANGEROUS PATTERNS
-  Anything that can execute runtime JS or inject behavior
+  SAFE SCRIPT POLICY (IMPORTANT CHANGE)
+
+  We ALLOW <script> tags for:
+  - animations
+  - UI effects
+  - transitions
+
+  BUT we BLOCK dangerous runtime behaviors inside them.
+*/
+
+/*
+  DANGEROUS BEHAVIOR PATTERNS (NOT STRUCTURAL TAGS)
 */
 const DANGEROUS_PATTERNS = [
-  /<script[\s\S]*?>[\s\S]*?<\/script>/gi,
-  /<script/gi,
-  /<\/script>/gi,
-
-  /on\w+\s*=/gi,            // onclick, onerror, onload, etc
   /javascript:/gi,
   /data:text\/html/gi,
 
@@ -23,19 +26,29 @@ const DANGEROUS_PATTERNS = [
   /\bFunction\s*\(/gi,
   /new\s+Function/gi,
 
-  /document\./gi,
-  /window\./gi,
-
+  /document\.cookie/gi,
   /localStorage\./gi,
   /sessionStorage\./gi,
 
   /fetch\s*\(/gi,
   /XMLHttpRequest/gi,
-  /import\s*\(/gi
+
+  /import\s*\(/gi,
+  /require\s*\(/gi,
+
+  /window\.location\s*=/gi,
+  /location\.href\s*=/gi
 ];
 
 /*
-  GET REAL USER (GitHub or local fallback)
+  OPTIONAL: lightweight script detection (NOT blocking anymore)
+*/
+function hasScriptTag(content) {
+  return /<script\b[^>]*>/gi.test(content);
+}
+
+/*
+  GET USER (GitHub or fallback)
 */
 function getUser() {
   try {
@@ -54,7 +67,7 @@ function getUser() {
 }
 
 /*
-  PRETTY SHOUT LOG
+  SHOUT ERROR (enhanced visibility)
 */
 function failSecurity({ file, pattern, template, user }) {
   console.log("\n====================================");
@@ -70,10 +83,15 @@ function failSecurity({ file, pattern, template, user }) {
 }
 
 /*
-  SCAN SINGLE FILE
+  SCAN FILE
 */
 function scanFile(filePath, templateName, user) {
   const content = fs.readFileSync(filePath, "utf-8");
+
+  // ✅ Allow scripts for animations BUT inspect behavior
+  if (hasScriptTag(content)) {
+    console.log(`⚡ Script detected (allowed) in ${filePath}`);
+  }
 
   for (const pattern of DANGEROUS_PATTERNS) {
     if (pattern.test(content)) {
@@ -88,7 +106,7 @@ function scanFile(filePath, templateName, user) {
 }
 
 /*
-  SCAN DIRECTORY RECURSIVELY
+  SCAN DIRECTORY
 */
 function scanDir(dir, templateName, user) {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
