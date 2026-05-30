@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-29T20:43:48.580Z",
+  "generatedAt": "2026-05-30T01:29:55.926Z",
   "type": "404",
   "templates": [
     {
@@ -211,6 +211,59 @@
     {
       "id": 5,
       "type": "404",
+      "name": "stoneage",
+      "displayName": "Stone Age 404",
+      "description": "",
+      "author": "ui-errors",
+      "version": "1.0.0",
+      "tags": [
+        "stoneage",
+        "prehistoric",
+        "caveman",
+        "404",
+        "fun"
+      ],
+      "frameworks": {
+        "static": {
+          "file": "404.html",
+          "path": "build/static/stoneage/404.html",
+          "install": "404.html"
+        },
+        "vite": {
+          "file": "404.html",
+          "path": "build/vite/stoneage/404.html",
+          "install": "public/404.html"
+        },
+        "react": {
+          "file": "404.jsx",
+          "path": "build/react/stoneage/404.jsx",
+          "install": "src/pages/404.jsx"
+        },
+        "next": {
+          "file": "not-found.js",
+          "path": "build/next/stoneage/not-found.js",
+          "install": "app/not-found.js"
+        },
+        "express": {
+          "file": "404.ejs",
+          "path": "build/express/stoneage/404.ejs",
+          "install": "views/404.ejs"
+        },
+        "vue": {
+          "file": "404.vue",
+          "path": "build/vue/stoneage/404.vue",
+          "install": "src/pages/404.vue"
+        },
+        "svelte": {
+          "file": "404.svelte",
+          "path": "build/svelte/stoneage/404.svelte",
+          "install": "src/routes/404.svelte"
+        }
+      }
+    },
+    {
+      "id": 6,
+      "type": "404",
       "name": "train",
       "displayName": "Train",
       "description": "",
@@ -260,7 +313,7 @@
       }
     },
     {
-      "id": 6,
+      "id": 7,
       "type": "404",
       "name": "tv-signal",
       "displayName": "Tv signal",

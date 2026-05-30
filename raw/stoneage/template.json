@@ -1,0 +1,10 @@
+{
+  "name": "stoneage",
+  "displayName": "Stone Age 404",
+  "author": "ui-errors",
+  "tags": ["stoneage", "prehistoric", "caveman", "404", "fun"],
+
+  "registerAs": {
+    "404": true
+  }
+}
