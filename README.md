@@ -1,69 +1,131 @@
-
 # error-pages-templates
 
-A collection of customizable error page templates for web applications. These templates are designed to be installed and used with the **ui-errors CLI**.
+A growing collection of customizable error page templates for modern web applications — designed to power the **ui-errors CLI**.
 
-## Installation
+This repository is built for developers who care about **design, simplicity, and production-ready UI**. Whether it’s a 404 page that makes users smile or a 500 page that feels intentional, this is where those ideas live.
 
-Before using these templates, you must install the `ui-errors` CLI tool:
+---
+
+##  Why This Project Exists
+
+Error pages are usually ignored, but they’re often the *first thing users see when something breaks*.
+
+We’re building this to change that:
+
+- Make error pages beautiful, expressive, and useful
+- Provide ready-to-use templates for modern frameworks
+- Build a community-driven design registry
+- Keep everything fast, safe, and production-friendly
+
+If you’ve ever designed a cool error page, this is the place to share it.
+
+---
+
+##  Installation
+
+Install the CLI tool first:
 
 ```bash
 npm install -g errorlab
 ```
+Then you can browse and install templates directly from this repository using ui-errors.
 
-Once installed, you can browse and install templates from this repository using the CLI.
+##  Available Templates
+- Frameworks: Express, Next.js, React, Vue, Svelte, Vite, Static HTML
+- Themes: Cyber, Train, Minimal, Experimental (and more coming)
+- Pages: 404 (Not Found), 500 (Server Error), and additional error states
+ ## Contributing
 
-## Available Templates
+### We welcome all contributors  beginners, designers, and experienced developers.
 
-This repository contains error page templates for various frameworks and themes:
+Even small contributions matter: a layout tweak, a new theme idea, or a creative 404 page can help thousands of developers.
 
-- **Frameworks**: Express, Next.js, React, Vue, Svelte, Vite, and static HTML
-- **Themes**: Cyber, Train, and more
-- **Error Pages**: 404 (Not Found), 500 (Server Error), and others
+### Start Here
+- Contribution Guide → CONTRIBUTING.md
+- Security Policy → SECURITY.md
+- Code of Conduct → CODE_OF_CONDUCT.md
+### How to Contribute
+- Fork this repository
+- Create a new template inside raw/your-template-name/
+## Add required files:
+- index.html
+- template.json
 
-## Contributing Templates
+Build the project:
+```
+npm run build
+```
+Test across supported frameworks
+Submit a pull request 
+## Template Structure
 
-We welcome contributions! Here's how to add your custom error page templates:
-
-### Steps to Contribute
-
-1. **Fork or clone** this repository
-2. **Create your template** in the `raw/` directory:
-   - Create a new folder under `raw/` with your template name (e.g., `raw/my-theme/`)
-   - Add an `index.html` file with your template design
-   - Make sure you don't push the images here host the images somewhere just pushed one source code
-   - Add a `template.json` file with template metadata
-
-3. **Build your templates** for multiple frameworks:
-   - Run `npm run build` to generate framework-specific versions
-   - This will create compiled templates in the `build/` directory
-
-4. **Test your templates** to ensure they work correctly across all frameworks
-
-5. **Submit a pull request** with your changes
-
-### Template Structure
-
-Each template should include:
-- A base HTML template in `raw/[theme-name]/`
-- Metadata in `template.json` describing the template
-- Support for common error pages (404, 500, etc.)
-
-### Example `template.json`
-
-```json
+Every template must live inside the raw/ directory.
+```
+raw/your-template-name/
+ ├── index.html
+ └── template.json
+```
+## Example template.json
+```
 {
-  "name": "theme-name",
+  "name": "cyber-glitch-404",
   "displayName": "Cyber Glitch 404",
-  "author": "ui-errors",
+  "author": "your-github-username",
   "tags": ["cyber", "glitch", "dark"],
-
   "registerAs": {
     "404": true
   }
 }
 ```
+### Security First
 
-## License
+Security is a core principle of this project.
 
-Please refer to the LICENSE file in this repository.
+Before contributing, please read:
+
+## SECURITY.md
+
+Key Rules:
+- No external scripts or CDNs
+- No tracking or analytics code
+- No obfuscated or hidden logic
+- No data collection or unsafe runtime behavior
+- Templates must remain static and predictable
+  ## Build & Test
+
+After adding your template:
+```
+npm install
+npm run build
+```
+## Make sure:
+
+- No build errors
+- No console warnings
+- Works across all frameworks
+- Fully responsive design
+- No external dependencies
+  ## Why Contribute?
+
+Because your work doesn’t just stay in a repo — it gets used.
+
+Templates from here can:
+
+- Be installed globally via CLI
+- Be used in real production apps
+- Reach thousands of developers
+- Become part of modern UI systems
+
+Even a small idea can become widely used.
+
+### License
+
+This project is open-source. See the LICENSE file for details.
+
+❤️ Final Note
+
+We’re not just collecting error pages.
+
+We’re building a library of creative UI moments when things go wrong.
+
+If you’ve got an idea — simple, weird, minimal, or experimental — ship it.
