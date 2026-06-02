@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-31T18:46:22.233Z",
+  "generatedAt": "2026-06-02T09:01:51.218Z",
   "type": "404",
   "templates": [
     {
@@ -61,6 +61,62 @@
     {
       "id": 2,
       "type": "404",
+      "name": "block",
+      "displayName": "Rolling Block",
+      "description": "",
+      "author": "ui-errors",
+      "version": "1.0.0",
+      "tags": [
+        "404",
+        "3d",
+        "block",
+        "cube",
+        "tunnel",
+        "animation",
+        "white",
+        "dark"
+      ],
+      "frameworks": {
+        "static": {
+          "file": "404.html",
+          "path": "build/static/block/404.html",
+          "install": "404.html"
+        },
+        "vite": {
+          "file": "404.html",
+          "path": "build/vite/block/404.html",
+          "install": "public/404.html"
+        },
+        "react": {
+          "file": "404.jsx",
+          "path": "build/react/block/404.jsx",
+          "install": "src/pages/404.jsx"
+        },
+        "next": {
+          "file": "not-found.js",
+          "path": "build/next/block/not-found.js",
+          "install": "app/not-found.js"
+        },
+        "express": {
+          "file": "404.ejs",
+          "path": "build/express/block/404.ejs",
+          "install": "views/404.ejs"
+        },
+        "vue": {
+          "file": "404.vue",
+          "path": "build/vue/block/404.vue",
+          "install": "src/pages/404.vue"
+        },
+        "svelte": {
+          "file": "404.svelte",
+          "path": "build/svelte/block/404.svelte",
+          "install": "src/routes/404.svelte"
+        }
+      }
+    },
+    {
+      "id": 3,
+      "type": "404",
       "name": "brokenSignal",
       "displayName": "disconnected tv",
       "description": "",
@@ -110,7 +166,7 @@
       }
     },
     {
-      "id": 3,
+      "id": 4,
       "type": "404",
       "name": "cyber",
       "displayName": "Cyber Glitch 404",
@@ -161,7 +217,7 @@
       }
     },
     {
-      "id": 4,
+      "id": 5,
       "type": "404",
       "name": "lostAstronant",
       "displayName": "Lost Astronaut 404",
@@ -214,7 +270,7 @@
       }
     },
     {
-      "id": 5,
+      "id": 6,
       "type": "404",
       "name": "slate",
       "displayName": "slate minimal 404",
@@ -265,7 +321,7 @@
       }
     },
     {
-      "id": 6,
+      "id": 7,
       "type": "404",
       "name": "stoneage",
       "displayName": "Stone Age 404",
@@ -318,7 +374,7 @@
       }
     },
     {
-      "id": 7,
+      "id": 8,
       "type": "404",
       "name": "train",
       "displayName": "Train",
@@ -369,7 +425,7 @@
       }
     },
     {
-      "id": 8,
+      "id": 9,
       "type": "404",
       "name": "tv-signal",
       "displayName": "Tv signal",
