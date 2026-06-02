@@ -1,0 +1,35 @@
+{
+  "name": "cry",
+  "displayName": "Crying Face 404",
+  "author": "ui-errors",
+  "tags": [
+    "404",
+    "error",
+    "not-found",
+    "sad",
+    "crying",
+    "crying-face",
+    "illustration",
+    "minimal",
+    "clean",
+    "simple",
+    "modern",
+    "cute",
+    "emoji",
+    "lost",
+    "oops",
+    "empty-state",
+    "landing",
+    "friendly",
+    "cartoon",
+    "yellow",
+    "tailwind",
+    "responsive",
+    "light",
+    "centered"
+  ],
+
+  "registerAs": {
+    "404": true
+  }
+}
