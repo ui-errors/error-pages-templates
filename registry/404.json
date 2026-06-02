@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-02T19:50:53.145Z",
+  "generatedAt": "2026-06-02T20:05:16.803Z",
   "type": "404",
   "templates": [
     {
@@ -169,7 +169,7 @@
       "id": 4,
       "type": "404",
       "name": "cry",
-      "displayName": "Crying Face 404",
+      "displayName": "lost saul therapy",
       "description": "",
       "author": "ui-errors",
       "version": "1.0.0",
@@ -179,15 +179,6 @@
         "not-found",
         "sad",
         "crying",
-        "crying-face",
-        "illustration",
-        "minimal",
-        "clean",
-        "simple",
-        "modern",
-        "cute",
-        "emoji",
-        "lost",
         "oops",
         "empty-state",
         "landing",
