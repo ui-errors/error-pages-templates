@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-02T20:05:16.803Z",
+  "generatedAt": "2026-06-02T20:14:35.876Z",
   "type": "404",
   "templates": [
     {
@@ -407,6 +407,65 @@
     {
       "id": 8,
       "type": "404",
+      "name": "music",
+      "displayName": "Music Player 404",
+      "description": "",
+      "author": "ui-errors",
+      "version": "1.0.0",
+      "tags": [
+        "music",
+        "audio",
+        "player",
+        "404",
+        "error",
+        "not-found",
+        "playlist",
+        "entertainment",
+        "media",
+        "clean",
+        "modern"
+      ],
+      "frameworks": {
+        "static": {
+          "file": "404.html",
+          "path": "build/static/music/404.html",
+          "install": "404.html"
+        },
+        "vite": {
+          "file": "404.html",
+          "path": "build/vite/music/404.html",
+          "install": "public/404.html"
+        },
+        "react": {
+          "file": "404.jsx",
+          "path": "build/react/music/404.jsx",
+          "install": "src/pages/404.jsx"
+        },
+        "next": {
+          "file": "not-found.js",
+          "path": "build/next/music/not-found.js",
+          "install": "app/not-found.js"
+        },
+        "express": {
+          "file": "404.ejs",
+          "path": "build/express/music/404.ejs",
+          "install": "views/404.ejs"
+        },
+        "vue": {
+          "file": "404.vue",
+          "path": "build/vue/music/404.vue",
+          "install": "src/pages/404.vue"
+        },
+        "svelte": {
+          "file": "404.svelte",
+          "path": "build/svelte/music/404.svelte",
+          "install": "src/routes/404.svelte"
+        }
+      }
+    },
+    {
+      "id": 9,
+      "type": "404",
       "name": "slate",
       "displayName": "slate minimal 404",
       "description": "",
@@ -456,7 +515,7 @@
       }
     },
     {
-      "id": 9,
+      "id": 10,
       "type": "404",
       "name": "stoneage",
       "displayName": "Stone Age 404",
@@ -509,7 +568,7 @@
       }
     },
     {
-      "id": 10,
+      "id": 11,
       "type": "404",
       "name": "train",
       "displayName": "Train",
@@ -560,7 +619,7 @@
       }
     },
     {
-      "id": 11,
+      "id": 12,
       "type": "404",
       "name": "tv-signal",
       "displayName": "Tv signal",

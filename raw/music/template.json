@@ -1,0 +1,21 @@
+{
+  "name": "music",
+  "displayName": "Music Player 404",
+  "author": "ui-errors",
+  "tags": [
+    "music",
+    "audio",
+    "player",
+    "404",
+    "error",
+    "not-found",
+    "playlist",
+    "entertainment",
+    "media",
+    "clean",
+    "modern"
+  ],
+  "registerAs": {
+    "404": true
+  }
+}
