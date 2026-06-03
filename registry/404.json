@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-02T20:14:35.876Z",
+  "generatedAt": "2026-06-03T18:28:18.311Z",
   "type": "404",
   "templates": [
     {
@@ -168,6 +168,61 @@
     {
       "id": 4,
       "type": "404",
+      "name": "cinematic",
+      "displayName": "Cinematic Split Lights 404",
+      "description": "",
+      "author": "ui-errors",
+      "version": "1.0.0",
+      "tags": [
+        "404",
+        "cinematic",
+        "netflix",
+        "lights",
+        "animation",
+        "dark",
+        "modern"
+      ],
+      "frameworks": {
+        "static": {
+          "file": "404.html",
+          "path": "build/static/cinematic/404.html",
+          "install": "404.html"
+        },
+        "vite": {
+          "file": "404.html",
+          "path": "build/vite/cinematic/404.html",
+          "install": "public/404.html"
+        },
+        "react": {
+          "file": "404.jsx",
+          "path": "build/react/cinematic/404.jsx",
+          "install": "src/pages/404.jsx"
+        },
+        "next": {
+          "file": "not-found.js",
+          "path": "build/next/cinematic/not-found.js",
+          "install": "app/not-found.js"
+        },
+        "express": {
+          "file": "404.ejs",
+          "path": "build/express/cinematic/404.ejs",
+          "install": "views/404.ejs"
+        },
+        "vue": {
+          "file": "404.vue",
+          "path": "build/vue/cinematic/404.vue",
+          "install": "src/pages/404.vue"
+        },
+        "svelte": {
+          "file": "404.svelte",
+          "path": "build/svelte/cinematic/404.svelte",
+          "install": "src/routes/404.svelte"
+        }
+      }
+    },
+    {
+      "id": 5,
+      "type": "404",
       "name": "cry",
       "displayName": "lost saul therapy",
       "description": "",
@@ -229,7 +284,7 @@
       }
     },
     {
-      "id": 5,
+      "id": 6,
       "type": "404",
       "name": "cryingface",
       "displayName": "Crying Face 404",
@@ -301,7 +356,7 @@
       }
     },
     {
-      "id": 6,
+      "id": 7,
       "type": "404",
       "name": "cyber",
       "displayName": "Cyber Glitch 404",
@@ -352,7 +407,7 @@
       }
     },
     {
-      "id": 7,
+      "id": 8,
       "type": "404",
       "name": "lostAstronant",
       "displayName": "Lost Astronaut 404",
@@ -405,7 +460,7 @@
       }
     },
     {
-      "id": 8,
+      "id": 9,
       "type": "404",
       "name": "music",
       "displayName": "Music Player 404",
@@ -464,7 +519,7 @@
       }
     },
     {
-      "id": 9,
+      "id": 10,
       "type": "404",
       "name": "slate",
       "displayName": "slate minimal 404",
@@ -515,7 +570,7 @@
       }
     },
     {
-      "id": 10,
+      "id": 11,
       "type": "404",
       "name": "stoneage",
       "displayName": "Stone Age 404",
@@ -568,7 +623,7 @@
       }
     },
     {
-      "id": 11,
+      "id": 12,
       "type": "404",
       "name": "train",
       "displayName": "Train",
@@ -619,7 +674,7 @@
       }
     },
     {
-      "id": 12,
+      "id": 13,
       "type": "404",
       "name": "tv-signal",
       "displayName": "Tv signal",
