@@ -1,10 +1,33 @@
-# error-pages-templates
-
-A growing collection of customizable error page templates for modern web applications — designed to power the **ui-errors CLI**.
-
-This repository is built for developers who care about **design, simplicity, and production-ready UI**. Whether it’s a 404 page that makes users smile or a 500 page that feels intentional, this is where those ideas live.
+<div align="center">
+  <a href="https://github.com/Safouene1/support-palestine-banner/blob/master/Markdown-pages/Support.md">
+    <img src="https://raw.githubusercontent.com/Safouene1/support-palestine-banner/master/banner-project.svg" alt="Support Palestine" style="width: 100%;" />
+  </a>
+</div>
 
 ---
+
+> [!CAUTION]
+> The Kenyan tech and developer ecosystem is under severe threat.  
+> The newly introduced **Finance Bill** expands software platform taxes, penalizes digital services, and enforces strict **eTIMS validation rules** that block essential business expense deductions for creators and startups.  
+> Make your voice heard – reject these clauses by emailing your memorandum to **cna@parliament.go.ke** or sign the collective petition at [change.org](https://change.org).
+
+<p align="center">
+  <img src="https://i.ibb.co/gFW7SwzH/images-4.jpg" alt="Support Banner" />
+</p>
+
+---
+
+## 📦 UI Error Templates
+
+A growing collection of **customizable error page templates** for modern web applications — designed to power the **ui-errors CLI**.
+
+This repository is built for developers who care about:
+
+- **[Design](ca://s?q=Tell_me_more_about_design_principles)** — clean, modern, and user-friendly layouts  
+- **[Simplicity](ca://s?q=Explain_simplicity_in_UI_design)** — lightweight templates that are easy to integrate  
+- **[Production-ready UI](ca://s?q=What_is_production_ready_UI)** — polished error pages that work out-of-the-box  
+
+Whether it’s a **[404 page](ca://s?q=What_is_a_404_error_page)** that makes users smile or a **[500 page](ca://s?q=Explain_500_error_page)** that feels intentional, this is where those ideas live.
 
 ## supported environments
 <div>
