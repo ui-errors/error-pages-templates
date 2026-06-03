@@ -7,16 +7,12 @@ This repository is built for developers who care about **design, simplicity, and
 ---
 
 ## supported environments
-</div>
-
-<p align="center">
+<div>
   <img src="https://ziadoua.github.io/m3-Markdown-Badges/badges/Android/android1.svg" />
   <img src="https://ziadoua.github.io/m3-Markdown-Badges/badges/Windows/windows1.svg" />
   <img src="https://ziadoua.github.io/m3-Markdown-Badges/badges/macOS/macos1.svg" />
   <img src="https://ziadoua.github.io/m3-Markdown-Badges/badges/Linux/linux2.svg" />
-
-
-<div align="center">
+</div>
 ---
 
 ##  Why This Project Exists
