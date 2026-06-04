@@ -1,0 +1,181 @@
+<template>
+  <div v-html="html"></div>
+</template>
+
+<script setup>
+const html = `
+
+<div class="snow">
+
+  <!-- MORE SNOWFLAKES -->
+
+  <div class="snowflake" style="left:2%; animation-duration:7s;">
+    <svg viewBox="0 0 24 24">
+      <path d="M12 0v24M0 12h24M4 4l16 16M20 4L4 20" stroke="#bfe9ff" stroke-width="2"></path>
+    </svg>
+  </div>
+
+  <div class="snowflake" style="left:10%; animation-duration:9s;">
+    <svg viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="4" fill="#dff7ff"></circle>
+    </svg>
+  </div>
+
+  <div class="snowflake" style="left:18%; animation-duration:6s;">
+    <svg viewBox="0 0 24 24">
+      <path d="M12 0v24M0 12h24" stroke="#cfefff" stroke-width="2"></path>
+    </svg>
+  </div>
+
+  <div class="snowflake" style="left:28%; animation-duration:10s;">
+    <svg viewBox="0 0 24 24">
+      <path d="M4 4l16 16M20 4L4 20" stroke="#bfe9ff" stroke-width="2"></path>
+    </svg>
+  </div>
+
+  <div class="snowflake" style="left:35%; animation-duration:8s;">
+    <svg viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="3.5" fill="#e6fbff"></circle>
+    </svg>
+  </div>
+
+  <div class="snowflake" style="left:45%; animation-duration:6.5s;">
+    <svg viewBox="0 0 24 24">
+      <path d="M12 0v24M0 12h24M4 4l16 16M20 4L4 20" stroke="#cfefff" stroke-width="2"></path>
+    </svg>
+  </div>
+
+  <div class="snowflake" style="left:55%; animation-duration:11s;">
+    <svg viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="4.2" fill="#dff7ff"></circle>
+    </svg>
+  </div>
+
+  <div class="snowflake" style="left:65%; animation-duration:7.5s;">
+    <svg viewBox="0 0 24 24">
+      <path d="M0 12h24" stroke="#bfe9ff" stroke-width="2"></path>
+    </svg>
+  </div>
+
+  <div class="snowflake" style="left:75%; animation-duration:9.5s;">
+    <svg viewBox="0 0 24 24">
+      <path d="M4 4l16 16" stroke="#cfefff" stroke-width="2"></path>
+    </svg>
+  </div>
+
+  <div class="snowflake" style="left:85%; animation-duration:6.8s;">
+    <svg viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="3.8" fill="#e6fbff"></circle>
+    </svg>
+  </div>
+
+  <div class="snowflake" style="left:93%; animation-duration:10.5s;">
+    <svg viewBox="0 0 24 24">
+      <path d="M12 0v24M0 12h24" stroke="#bfe9ff" stroke-width="2"></path>
+    </svg>
+  </div>
+
+</div>
+
+<div class="wrapper">
+  <img src="https://i.ibb.co/v4v0H6dq/In-Shot-20260604-230115594.jpg" alt="404 Image">
+  <h1> Page Not Found</h1>
+  <p>This page got lost in the winter storm ❄️</p>
+</div>
+
+
+
+`
+</script>
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  background:#ffffff;
+  height:100vh;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:Arial, sans-serif;
+}
+
+/* Center content */
+.wrapper{
+  text-align:center;
+  position:relative;
+  z-index:2;
+}
+
+img{
+  width:300px;
+  max-width:90%;
+  border-radius:14px;
+}
+
+h1{
+  font-size:42px;
+  color:#111;
+  margin-top:20px;
+}
+
+p{
+  color:#666;
+  margin-top:10px;
+}
+
+/* Snow layer */
+.snow{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:1;
+}
+
+/* Snowflake */
+.snowflake{
+  position:absolute;
+  top:-10px;
+  width:22px;
+  height:22px;
+  opacity:0.95;
+  filter: drop-shadow(0 0 6px #bfe9ff);
+  animation: fall linear infinite;
+}
+
+/* Bigger snow glow */
+.snowflake svg{
+  width:100%;
+  height:100%;
+}
+
+/* Falling animation */
+@keyframes fall{
+  0%{
+    transform:translateY(-10vh) translateX(0);
+    opacity:0;
+  }
+  10%{
+    opacity:1;
+  }
+  100%{
+    transform:translateY(110vh) translateX(30px);
+    opacity:0.9;
+  }
+}
+
+/* slight sway */
+@keyframes sway{
+  0% { transform: translateX(0); }
+  50% { transform: translateX(15px); }
+  100% { transform: translateX(-10px); }
+}
+
+</style>
