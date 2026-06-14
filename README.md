@@ -4,16 +4,6 @@
   </a>
 </div>
 
----
-
-> [!CAUTION]
-> The Kenyan tech and developer ecosystem is under severe threat.  
-> The newly introduced **Finance Bill** expands software platform taxes, penalizes digital services, and enforces strict **eTIMS validation rules** that block essential business expense deductions for creators and startups.  
-> Make your voice heard – reject these clauses by emailing your memorandum to **cna@parliament.go.ke** or sign the collective petition at [change.org](https://change.org).
-
-<p align="center">
-  <img src="https://i.ibb.co/gFW7SwzH/images-4.jpg" alt="Support Banner" />
-</p>
 
 ---
 
